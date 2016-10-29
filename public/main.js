@@ -31,12 +31,39 @@
 //     this.result.toggleClass('transparent');
 // };
 
+var makeAPICall = function(searchTerm) {
+    // alert('here');
+    var urlBuild = 'https://capstone-namwill.c9users.io/search/' + searchTerm;
+    console.log('urlBuild = ', urlBuild);
 
+    var walMartApiCall = $.ajax({
+            /* update API end point */
+            url: urlBuild,
+            dataType: 'json',
+            /*set the call type GET / POST*/
+            type: 'GET'
+        })
+        /* if the call is successful (status 200 OK) show results */
+        .done(function(result) {
+            alert('API call Succesfull');
+            /* if the results are meaningful, we can just console.log them */
+            console.log(result);
+            return result;
+
+        })
+        /* if the call is NOT successful show errors */
+        .fail(function(jqXHR, error, errorThrown) {
+            console.log(jqXHR);
+            console.log(error);
+            console.log(errorThrown);
+            return "API Error";
+        });
+}
 
 
 $(document).ready(function() {
     //var app = new Walmart();
-    
+
     //alert("jQuery Working");
 
 
@@ -44,32 +71,10 @@ $(document).ready(function() {
         event.preventDefault();
         var searchTerm = $('input').val();
         console.log('form submitted with value = ', searchTerm);
-        
-        var urlBuild = 'https://capstone-namwill.c9users.io/search/' + searchTerm;
-        console.log('urlBuild = ', urlBuild);
-        
-        var result = $.ajax({
-                /* update API end point */
-                url: urlBuild,
-                dataType: 'json',
-                /*set the call type GET / POST*/
-                type: 'GET'
-            })
-            /* if the call is successful (status 200 OK) show results */
-            .done(function (result) {
-                alert('here');
-                /* if the results are meeningful, we can just console.log them */
-                console.log(result);
-               
-            })
-            /* if the call is NOT successful show errors */
-            .fail(function (jqXHR, error, errorThrown) {
-                console.log(jqXHR);
-                console.log(error);
-                console.log(errorThrown);
-            });
-        
-        
+
+        console.log(makeAPICall(searchTerm));
+
+
         // $.ajax('/search/' + searchTerm, {
         //         type: 'GET',
         //         dataType: 'json'
